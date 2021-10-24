@@ -9,6 +9,7 @@ lab_KPI=c("KPI 1","KPI 2","KPI 3","KPI 4","KPI 5","KPI 6")
 lab_Q=c("Q1, 2019","Q2, 2019","Q3, 2019","Q4, 2019","Q1, 2020","Q2, 2020","Q3, 2020","Q4, 2020")
 
 # Sample example data
+set.seed(123)
 n=length(lab_company)*length(lab_KPI)*length(lab_Q)
 dat = as.data.frame(cbind(Company=rep(lab_company,each=n/length(lab_company)),KPI=rep(lab_KPI,n/length(lab_KPI)),Q=rep(lab_Q,each=length(lab_KPI))))
 dat$Year=str_sub(dat$Q, start= -4)
@@ -42,11 +43,8 @@ for(i in 1:length(lab_KPI))
   {
     for(k in 1:length(yearvec))
     {
-      temp = tabdat[tabdat$KPI==lab_KPI[i] & tabdat$Company==lab_company[j] & tabdat$Year==yearvec[k],]
-      if(dim(temp)[1]>0)
-      {
-        tmplist[[(j-1)*length(yearvec)+k]]=c(KPI_target,0,1,temp$Max,temp$Min)  
-      }else{tmplist[(j-1)*length(yearvec)+k]=list(NULL)}
+      tmp = tabdat[tabdat$KPI==lab_KPI[i] & tabdat$Company==lab_company[j] & tabdat$Year==yearvec[k],]
+      tmplist[[(j-1)*length(yearvec)+k]]=c(KPI_target,0,1,tmp$Max,tmp$Min)  
     }
   }
   
